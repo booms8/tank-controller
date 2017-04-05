@@ -35,6 +35,10 @@ def read_temp():
 		return temps_json
 
 @app.route("/")
+def default():
+	return "Controller online"
+
+@app.route("/hello/")
 def hello():
 	return "Hello World!"
 
