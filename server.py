@@ -38,7 +38,7 @@ def read_temp():
 def get_uptime():
 	with open('/proc/uptime', 'r') as f:
 		uptime_sec = float(f.readline().split()[0])
-		uptime_str = str(timedelta(seconds = uptime_seconds))
+		uptime_str = str(timedelta(seconds = uptime_sec))
 	return uptime_str
 
 @app.route("/")
