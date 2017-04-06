@@ -4,6 +4,7 @@ import glob
 import time
 import json
 
+from datetime import timedelta
 from flask import Flask
 from flask_cors import CORS, cross_origin
 from Adafruit_PWM_Servo_Driver import PWM
@@ -34,13 +35,15 @@ def read_temp():
 		temps_json = json.dumps(temps)
 		return temps_json
 
+def get_uptime():
+	with open('/proc/uptime', 'r') as f:
+		uptime_sec = float(f.readline().split()[0])
+		uptime_str = str(timedelta(seconds = uptime_seconds))
+	return uptime_str
+
 @app.route("/")
 def default():
-	return "Controller online"
-
-@app.route("/hello/")
-def hello():
-	return "Hello World!"
+	return "{\"online\":true}"
 
 @app.route("/feed/")
 def feed():
@@ -60,6 +63,10 @@ def feed():
 @app.route("/temp/")
 def temp():
 	return read_temp()
+
+@app.route("/uptime/")
+def uptime():
+	return json.dumps(get_uptime())
 
 if __name__ == "__main__":
 	app.run(host='0.0.0.0')
